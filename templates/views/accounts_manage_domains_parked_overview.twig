@@ -1,0 +1,64 @@
+{% extends 'layout.twig' %}
+
+{% set nav = 'accounts' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                <a
+                    class="btn btn-success pull-right"
+                    href="{{ path('accounts-manage-domains-parked-add', {
+                        'username': username,
+                    }) }}"
+                    >
+                    <span class="fa fa-plus-circle"></span>
+                    Add
+                </a>
+                <a href="{{ path('accounts-overview') }}">Accounts</a>
+                -
+                <a href="{{ path('accounts-manage', {
+                    'username': username,
+                }) }}">{{ username }}</a>
+                -
+                Domains
+                -
+                Parked
+                -
+                Overview
+            </h1>
+            <hr>
+            {% if domains %}
+                <table class="table table-bordered table-hover table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th class="narrow">Document Root</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                    {% for domain in domains %}
+                        <tr>
+                            <td>{{ domain['domain'] }}</td>
+                            <td class="narrow">{{ domain['dir'] }}</td>
+                            <td class="actions">
+                                <a
+                                    class="btn btn-xs btn-danger"
+                                    href="{{ path('accounts-manage-domains-parked-delete', {
+                                        'domain': domain['domain'],
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-dot-circle-o"></span>
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <div class="alert alert-danger">
+                    There are no parked domains in this account.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% import 'macros.twig' as macros %}
+
+{% extends 'layout.twig' %}
+
+{% set nav = 'sign-in' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Sign In</h1>
+            <hr>
+            <form
+                action="{{ path('sign-in') }}"
+                class="form-horizontal"
+                method="post"
+                novalidate
+                >
+                {{ form_widget(form, {'form_type': 'horizontal'}) }}
+                {{ macros.buttons }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

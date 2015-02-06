@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/../functions.php';
+require_once __DIR__.'/../parameters.php';
+
+require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/Cpanel/Util/Autoload.php';
+
+set_time_limit(0);
+
+use Symfony\Component\Console\Input\ArgvInput;
+
+$app = require __DIR__.'/../src/app.php';
+require __DIR__.sprintf('/../config/%s.php', get_environment());
+$console = require __DIR__.'/../src/console.php';
+$console->run();

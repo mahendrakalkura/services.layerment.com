@@ -1,0 +1,55 @@
+{% import 'macros.twig' as macros %}
+
+{% extends 'layout.twig' %}
+
+{% set nav = 'accounts' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                <a href="{{ path('accounts-overview') }}">Accounts</a>
+                -
+                <a href="{{ path('accounts-manage', {
+                    'username': username,
+                }) }}">{{ username }}</a>
+                -
+                Domains
+                -
+                Addon
+                -
+                {{ domain }}
+                -
+                Delete
+            </h1>
+            <hr>
+            <form
+                action="{{ path('accounts-manage-domains-addon-delete', {
+                    'domain': domain,
+                    'username': username,
+                }) }}"
+                method="post"
+                >
+                <p>
+                    Are you sure you want to delete the addon domain
+                    <strong>{{ domain }}</strong>?
+                </p>
+                <div class="clearfix form-actions">
+                    <a
+                        class="btn btn-danger pull-right"
+                        href="{{ path('accounts-manage-domains-addon-overview', {
+                            'username': username,
+                        }) }}"
+                        >
+                        <span class="fa fa-circle-o"></span>
+                        No
+                    </a>
+                    <button class="btn btn-success pull-right" type="submit">
+                        <span class="fa fa-dot-circle-o"></span>
+                        Yes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

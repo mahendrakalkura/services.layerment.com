@@ -1,0 +1,20 @@
+{% extends 'layout.twig' %}
+
+{% set nav = 'dashboard' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Dashboard</h1>
+            <hr>
+            <table class="table table-bordered table-hover table-striped">
+                <tr>
+                    <td>Total Number of Accounts</td>
+                    <td class="narrow text-right">
+                        {{ accounts|length|number_format }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

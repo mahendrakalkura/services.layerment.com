@@ -1,0 +1,17 @@
+{% extends 'layout.twig' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Fatal Error</h3>
+                </div>
+                <div class="panel-body">
+                    A fatal error has occurred. Please try again.
+                </div>
+                <div class="panel-footer">Code: {{ code }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

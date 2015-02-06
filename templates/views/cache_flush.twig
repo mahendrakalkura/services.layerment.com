@@ -1,0 +1,32 @@
+{% import 'macros.twig' as macros %}
+
+{% extends 'layout.twig' %}
+
+{% set nav = 'others' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Cache</h1>
+            <hr>
+            <form action="{{ path('cache-flush') }}" method="post">
+                <p>
+                    Are you sure you want to flush the cache?
+                </p>
+                <div class="clearfix form-actions">
+                    <a
+                        class="btn btn-danger pull-right"
+                        href="{{ path('accounts-overview') }}"
+                        >
+                        <span class="fa fa-circle-o"></span>
+                        No
+                    </a>
+                    <button class="btn btn-success pull-right" type="submit">
+                        <span class="fa fa-dot-circle-o"></span>
+                        Yes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

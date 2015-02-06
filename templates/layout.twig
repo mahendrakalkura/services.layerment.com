@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" ng-app="application">
+    <head>
+        <link
+            href="{{ app.request.basepath }}/images/favicon.ico"
+            rel="shortcut icon"
+            >
+        <link
+            href="{{ app.request.basepath }}/vendor/bootstrap/css/bootstrap-theme.min.css"
+            rel="stylesheet"
+            >
+        <link
+            href="{{ app.request.basepath }}/vendor/bootstrap/css/bootstrap.min.css"
+            rel="stylesheet"
+            >
+        <link
+            href="{{ app.request.basepath }}/vendor/font-awesome/css/font-awesome.min.css"
+            rel="stylesheet"
+            >
+        <link
+            href="{{ app.request.basepath }}/stylesheets/all.css"
+            rel="stylesheet"
+            >
+        <meta charset="utf-8">
+        <title>cPanel/WHM Manager</title>
+    </head>
+    <body>
+        <div id="container">
+            <div class="container">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="collapse navbar-collapse">
+                        {% if app.session.get('status', '') == 'status' %}
+                            <ul class="nav navbar-nav">
+                                <li class="{{ nav|default('') == 'dashboard'? 'active': '' }}">
+                                    <a href="{{ path('dashboard') }}">
+                                        <span class="fa fa-dashboard">
+                                        </span>
+                                        Dashboard
+                                    </a>
+                                </li>
+                                <li class="dropdown {{ nav|default('') == 'accounts'? 'active': '' }}">
+                                    <a
+                                        class="dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        href="{{ path('accounts-overview') }}"
+                                        >
+                                        <span class="fa fa-user"></span>
+                                        Accounts
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ path('accounts-overview') }}">
+                                                <span class="fa fa-th-large">
+                                                </span>
+                                                Overview
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('accounts-add') }}">
+                                                <span class="fa fa-plus-circle">
+                                                </span>
+                                                Add
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a
+                                        class="dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        >
+                                        <span class="fa fa-wrench"></span>
+                                        Others
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ path('mysql-tuner') }}">
+                                                <span class="fa fa-bolt">
+                                                </span>
+                                                Initiate MySQL Tuner
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('cache-flush') }}">
+                                                <span class="fa fa-circle">
+                                                </span>
+                                                Flush Cache
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('sign-out') }}">
+                                                <span class="fa fa-sign-out">
+                                                </span>
+                                                Sign Out
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <ul class="nav navbar-nav">
+                                <li class="{{ nav|default('') == 'sign-in'? 'active': '' }}">
+                                    <a href="{{ path('sign-in') }}">
+                                        <span class="fa fa-sign-in"></span>
+                                        Sign In
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </nav>
+                {% if app.session.flashBag is defined %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% for type in ['danger', 'success'] %}
+                                {% for items in app.session.flashBag.get(type) %}
+                                    {% for item in items %}
+                                        <div class="alert alert-{{ type }}">
+                                            <span class="fa fa-info-circle">
+                                            </span>
+                                            {{ item|raw }}
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% block component %}
+                {% endblock %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                        <p class="pull-right">
+                            &copy; {{ year }} &middot; All Rights Reserved
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script
+            type="text/javascript"
+            src="{{ app.request.basepath }}/vendor/jquery-1.10.2.min.js"
+            ></script>
+        <script
+            type="text/javascript"
+            src="{{ app.request.basepath }}/vendor/bootstrap/js/bootstrap.min.js"
+            ></script>
+        <script
+            type="text/javascript"
+            src="{{ app.request.basepath }}/javascripts/all.js"
+            ></script>
+    </body>
+</html>

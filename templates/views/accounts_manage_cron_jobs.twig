@@ -1,0 +1,35 @@
+{% import 'macros.twig' as macros %}
+
+{% extends 'layout.twig' %}
+
+{% set nav = 'accounts' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                <a href="{{ path('accounts-overview') }}">Accounts</a>
+                -
+                <a href="{{ path('accounts-manage', {
+                    'username': username,
+                }) }}">{{ username }}</a>
+                -
+                Cron
+                -
+                Jobs
+            </h1>
+            <hr>
+            <form
+                action="{{ path('accounts-manage-cron-jobs', {
+                    'username': username,
+                }) }}"
+                class="form-horizontal"
+                method="post"
+                novalidate
+                >
+                {{ form_widget(form, {'form_type': 'horizontal'}) }}
+                {{ macros.buttons }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

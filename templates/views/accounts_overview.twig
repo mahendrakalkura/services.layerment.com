@@ -1,0 +1,88 @@
+{% extends 'layout.twig' %}
+
+{% set nav = 'accounts' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                <a
+                    class="btn btn-success pull-right"
+                    href="{{ path('accounts-add') }}"
+                    >
+                    <span class="fa fa-plus-circle"></span>
+                    Add
+                </a>
+                <a href="{{ path('accounts-overview') }}">Accounts</a>
+                -
+                Overview
+            </h1>
+            <hr>
+            {% if accounts %}
+                <div class="accounts">
+                    <div class="row">
+                        {% for account in accounts %}
+                            <div class="col-md-4">
+                                <div class="well">
+                                    <h2>
+                                        <a
+                                            class="btn btn-default pull-right"
+                                            href="{{ path('accounts-manage', {
+                                                'username': account['user'],
+                                            }) }}"
+                                            >
+                                            <span class="fa fa-arrow-circle-o-right">
+                                            </span>
+                                            Manage
+                                        </a>
+                                        {{ account['user'] }}
+                                    </h2>
+                                    <p>{{ account['email']|default('N/A') }}</p>
+                                    <p class="clearfix">
+                                        {% if not account['suspended'] %}
+                                            <a
+                                                class="btn btn-danger"
+                                                href="{{ path('accounts-suspend', {
+                                                    'username': account['user'],
+                                                }) }}"
+                                                >
+                                                <span class="fa fa-arrow-circle-o-right">
+                                                </span>
+                                                Suspend
+                                            </a>
+                                        {% else %}
+                                            <a
+                                                class="btn btn-success"
+                                                href="{{ path('accounts-unsuspend', {
+                                                    'username': account['user'],
+                                                }) }}"
+                                                >
+                                                <span class="fa fa-arrow-circle-o-right">
+                                                </span>
+                                                Unsuspend
+                                            </a>
+                                        {% endif %}
+                                        <a
+                                            class="btn btn-danger pull-right"
+                                            href="{{ path('accounts-terminate', {
+                                                'username': account['user'],
+                                            }) }}"
+                                            >
+                                            <span class="fa fa-arrow-circle-o-right">
+                                            </span>
+                                            Terminate
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    There are no accounts on the server.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

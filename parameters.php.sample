@@ -1,0 +1,25 @@
+<?php
+
+$parameters = array(
+    'mysql' => array(
+        'hostname' => '...',
+        'password' => '...',
+        'port' => '...',
+        'username' => '...',
+    ),
+    'ssh' => array(
+        'hostname' => '...',
+        'keys' => array(
+            'private' => '...',
+            'public' => '...',
+        ),
+        'port' => '...',
+        'username' => '...',
+    ),
+    'whm' => array(
+        'hostname' => '...',
+        'password' => '...',
+        'port' => '...',
+        'username' => '...',
+    ),
+);

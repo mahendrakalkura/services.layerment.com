@@ -1,0 +1,210 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 800;
+    src:
+        local('Open Sans'),
+        url('../fonts/PRmiXeptR36kaC0GEAetxkCDe67GEgBv_HnyvHTfdew.woff?')
+        format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src:
+        local('Open Sans'),
+        url('../fonts/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff')
+        format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 700;
+    src:
+        local('Open Sans'),
+        url('../fonts/PRmiXeptR36kaC0GEAetxjqR_3kx9_hJXbbyU8S6IN0.woff')
+        format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src:
+        local('Open Sans'),
+        url('../fonts/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff')
+        format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 600;
+    src:
+        local('Open Sans'),
+        url('../fonts/PRmiXeptR36kaC0GEAetxn5HxGBcBvicCpTp6spHfNo.woff')
+        format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src:
+        local('Open Sans'),
+        url('../fonts/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff')
+        format('woff');
+}
+
+a {
+    cursor: pointer;
+}
+
+body,
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+html,
+input,
+select,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6
+{
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 0;
+}
+
+textarea {
+    font-family: monospace, serif;
+}
+
+body {
+    background-image: url('../images/body.png');
+    background-position: top left;
+    background-repeat: repeat;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+hr {
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+input[type="file"] {
+    height: 36px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+pre {
+    margin-bottom: 15px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+.accounts {
+    padding: 15px 15px 1px 15px;
+}
+
+.alert {
+    margin-bottom: 15px;
+}
+
+.btn.text-left {
+    padding-left: 12px;
+    text-align: left;
+}
+
+.control-label {
+    padding-right: 0;
+}
+
+.control-label.required {
+    color: #000;
+}
+
+.form-actions {
+    background-color: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
+    padding: 15px 0;
+}
+
+.form-actions .btn {
+    margin-right: 17px;
+}
+
+.form-horizontal .checkbox {
+    line-height: 27px;
+    padding-top: 0;
+}
+
+.form-horizontal .checkbox input {
+    margin-top: 7px;
+}
+
+.form-horizontal .form-group.form-actions {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.help-block {
+    margin-bottom: 0;
+}
+
+.navbar {
+    margin-bottom: 15px;
+}
+
+.table {
+    margin-bottom: 15px;
+}
+
+.table .actions {
+    text-align: center;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.table .narrow {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.well {
+    margin-bottom: 30px;
+    padding: 15px 15px 1px 15px;
+}
+
+.well h2,
+.well p {
+    margin-bottom: 15px;
+}
+
+.well hr {
+    border-top-color: #e3e3e3;
+}
+
+#container {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 15px 0 1px 0;
+    width: 1170px;
+}

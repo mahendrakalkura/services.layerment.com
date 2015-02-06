@@ -1,0 +1,238 @@
+{% extends 'layout.twig' %}
+
+{% set nav = 'accounts' %}
+
+{% block component %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                <a href="{{ path('accounts-overview') }}">Accounts</a>
+                -
+                {{ username }}
+            </h1>
+            <hr>
+            <p>
+            </p>
+            <div class="accounts">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>Autoinstaller</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-autoinstallers-wordpress', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Install WordPress
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>Domains - Sub</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-domains-sub-overview', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Manage
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>Domains - Addon</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-domains-addon-overview', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Manage
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>Domains - Parked</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-domains-parked-overview', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Manage
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>Cron</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-cron-jobs', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Update Jobs
+                                </a>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-cron-email', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Update Email
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>Quota</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-quota-disk-space', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Update Disk Space Quota
+                                </a>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-quota-bandwidth', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Update Bandwidth Quota
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>SSL Certificates</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-ssl-certificates-install', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Install
+                                </a>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-ssl-certificates-rebuild', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Rebuild
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="well">
+                            <h3>Others</h3>
+                            <hr>
+                            <p>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-others-password', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Change Password
+                                </a>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-others-ip-address', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Change IP Address
+                                </a>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-others-files', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Upload Files
+                                </a>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-others-mysql-1', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Create MySQL Database
+                                </a>
+                                <a
+                                    class="btn btn-block btn-default text-left"
+                                    href="{{ path('accounts-manage-others-mysql-2', {
+                                        'username': username,
+                                    }) }}"
+                                    >
+                                    <span class="fa fa-arrow-circle-o-right">
+                                    </span>
+                                    Execute MySQL Query
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

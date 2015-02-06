@@ -1,0 +1,22 @@
+language: php
+
+php:
+    - 5.3
+    - 5.4
+    - 5.5
+    - hhvm
+
+before_script:
+    - composer install --dev
+    - tests/travis/php_setup.sh
+    - tests/travis/redis_setup.sh
+
+script: phpunit --verbose --coverage-text
+
+services:
+  - redis-server
+  - memcached
+
+matrix:
+  allow_failures:
+    - php: hhvm
