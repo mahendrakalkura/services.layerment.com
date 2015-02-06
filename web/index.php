@@ -8,8 +8,15 @@ if (
     return false;
 }
 
+if (is_file(__DIR__.'/../parameters.php')) {
+    require_once __DIR__.'/../parameters.php';
+} else {
+    if (is_file(__DIR__.'/../sources/parameters.php')) {
+        require_once __DIR__.'/../sources/parameters.php';
+    }
+}
+
 require_once __DIR__.'/../functions.php';
-require_once __DIR__.'/../parameters.php';
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/../vendor/Cpanel/Util/Autoload.php';
