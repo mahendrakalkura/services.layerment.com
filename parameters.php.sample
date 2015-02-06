@@ -7,6 +7,10 @@ $parameters = array(
         'port' => '...',
         'username' => '...',
     ),
+    'others' => array(
+        'environment' => 'prod',
+        'ttl' => 86400,
+    ),
     'ssh' => array(
         'hostname' => '...',
         'keys' => array(

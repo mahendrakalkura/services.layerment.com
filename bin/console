@@ -12,6 +12,8 @@ set_time_limit(0);
 use Symfony\Component\Console\Input\ArgvInput;
 
 $app = require __DIR__.'/../src/app.php';
-require __DIR__.sprintf('/../config/%s.php', get_environment());
+require __DIR__.sprintf(
+    '/../config/%s.php', $GLOBALS['parameters']['others']['environment']
+);
 $console = require __DIR__.'/../src/console.php';
 $console->run();

@@ -117,7 +117,9 @@ function DomainLookup_getdocroot($app, $username, $parameters) {
                     ->cpanelresult
                     ->data
                     ->getAllDataRecursively()[0]['docroot'];
-                $item->set($document_root, get_ttl());
+                $item->set(
+                    $document_root, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -144,7 +146,9 @@ function AddonDomain_listaddondomains($app, $username) {
                     ->cpanelresult
                     ->data
                     ->getAllDataRecursively();
-                $item->set($domains, get_ttl());
+                $item->set(
+                    $domains, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -228,7 +232,9 @@ function Park_listparkeddomains($app, $username) {
                     ->cpanelresult
                     ->data
                     ->getAllDataRecursively();
-                $item->set($domains, get_ttl());
+                $item->set(
+                    $domains, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -312,7 +318,9 @@ function SubDomain_listsubdomains($app, $username) {
                     ->cpanelresult
                     ->data
                     ->getAllDataRecursively();
-                $item->set($domains, get_ttl());
+                $item->set(
+                    $domains, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -396,7 +404,7 @@ function Cron_get_email($app, $username) {
                     ->cpanelresult
                     ->data
                     ->getAllDataRecursively()[0]['email'];
-                $item->set($email, get_ttl());
+                $item->set($email, $GLOBALS['parameters']['others']['ttl']);
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -456,7 +464,7 @@ function Cron_get($app, $username) {
                         }
                     }
                 }
-                $item->set($lines, get_ttl());
+                $item->set($lines, $GLOBALS['parameters']['others']['ttl']);
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -525,7 +533,9 @@ function Fileman_getdir($app, $username) {
                         ->data
                         ->getAllDataRecursively()[0]['dir']
                 );
-                $item->set($directory, get_ttl());
+                $item->set(
+                    $directory, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -569,7 +579,9 @@ function MysqlFE_listdbs($app, $username) {
                     ->cpanelresult
                     ->data
                     ->getAllDataRecursively();
-                $item->set($databases, get_ttl());
+                $item->set(
+                    $databases, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -674,7 +686,9 @@ function listaccts($app) {
         if ($response->validResponse()) {
             try {
                 $accounts = $response->acct->getAllDataRecursively();
-                $item->set($accounts, get_ttl());
+                $item->set(
+                    $accounts, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -695,7 +709,9 @@ function listips($app) {
         if ($response->validResponse()) {
             try {
                 $ip_addresses = $response->result->getAllDataRecursively();
-                $item->set($ip_addresses, get_ttl());
+                $item->set(
+                    $ip_addresses, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -716,7 +732,9 @@ function listpkgs($app) {
         if ($response->validResponse()) {
             try {
                 $packages = $response->package->getAllDataRecursively();
-                $item->set($packages, get_ttl());
+                $item->set(
+                    $packages, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -824,7 +842,9 @@ function showbw($app, $username) {
                 $bandwidth = $response
                     ->bandwidth
                     ->getAllDataRecursively()[0]['acct'][0]['limit'];
-                $item->set($bandwidth, get_ttl());
+                $item->set(
+                    $bandwidth, $GLOBALS['parameters']['others']['ttl']
+                );
             } catch (\Exception $exception) {
                 $item->clear();
             }
@@ -934,10 +954,6 @@ function get_account($app, $username) {
     return array();
 }
 
-function get_environment() {
-    return is_mahendra()? 'dev': 'prod';
-}
-
 function get_mysql($app, $username) {
     $hostname = '';
     $response = $app['api']->cpanel_api1_request('whostmgr', array(
@@ -1007,10 +1023,6 @@ function get_mysql($app, $username) {
         'password' => $password,
         'database' => $string_2,
     );
-}
-
-function get_ttl() {
-    return is_mahendra()? 86400: 3600;
 }
 
 function get_uuid($length)
@@ -1132,10 +1144,6 @@ function set_mysql($app, $username, $parameters) {
     $app['stash']->getItem('MysqlFE_listdbs', $username)->clear();
 
     return array(1, '');
-}
-
-function is_mahendra() {
-    return is_dir('/home/mahendra');
 }
 
 function usort_AddonDomain_listaddondomains($a, $b) {

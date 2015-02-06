@@ -23,11 +23,13 @@ require_once __DIR__.'/../vendor/Cpanel/Util/Autoload.php';
 
 use Symfony\Component\Debug\Debug;
 
-if (is_mahendra()) {
+if ($GLOBALS['parameters']['others']['environment'] == 'dev') {
     Debug::enable();
 }
 
 $app = require __DIR__.'/../src/app.php';
-require __DIR__.sprintf('/../config/%s.php', get_environment());
+require __DIR__.sprintf(
+    '/../config/%s.php', $GLOBALS['parameters']['others']['environment']
+);
 require __DIR__.'/../src/controllers.php';
 $app->run();

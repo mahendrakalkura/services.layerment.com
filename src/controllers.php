@@ -1698,7 +1698,7 @@ $app->get('/cache/flush', function(Request $request) use ($app) {
 })->bind('cache-flush')->method('GET|POST');
 
 $app->match('/sign-in', function(Request $request) use ($app) {
-    if (is_mahendra()) {
+    if ($GLOBALS['parameters']['others']['environment'] == 'dev') {
         $app['session']->set('status', 'status');
         $app['session']->getFlashBag()->add(
             'success',
