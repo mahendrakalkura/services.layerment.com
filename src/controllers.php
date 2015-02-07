@@ -14,7 +14,27 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\ConstraintValidator;
+
+class Username extends Constraint
+{
+    public $message = 'Invalid From/To';
+}
+
+class UsernameValidator extends ConstraintValidator
+{
+    public function validate($value, Constraint $constraint)
+    {
+        $values = $this->context->getRoot()->getData();
+        if ($values['from'] == $values['to']) {
+            $this
+                ->context
+                ->addViolation($constraint->message);
+        }
+    }
+}
 
 $app->before(function (Request $request) use ($app) {
     if ($request->get('serviceID') != 'ULTt5OVfWM-ZBF4h!') {
@@ -208,6 +228,89 @@ $app->get('/accounts/add', function(Request $request) use ($app) {
         'form' => $form->createView(),
     ));
 })->bind('accounts-add')->method('GET|POST');
+
+$app->get('/accounts/copy', function(Request $request) use ($app) {
+    $choices = array();
+    $choices['accounts'] = array();
+    $accounts = listaccts($app);
+    if (!empty($accounts)) {
+        foreach ($accounts as $account) {
+            $choices['accounts'][$account['user']] = $account['user'];
+        }
+    }
+    $form = $app['form.factory']
+        ->createBuilder('form',null,array('csrf_protection' => false))
+        ->add('from', 'choice', array(
+            'choices' => $choices['accounts'],
+            'constraints' => array(
+                new Constraints\NotBlank(array(
+                    'message' => 'Invalid Plan',
+                )),
+                new Username(),
+            ),
+            'required' => true,
+        ))
+        ->add('to', 'choice', array(
+            'choices' => $choices['accounts'],
+            'constraints' => array(
+                new Constraints\NotBlank(array(
+                    'message' => 'Invalid Plan',
+                )),
+                new Username(),
+            ),
+            'required' => true,
+        ))
+        ->add('items', 'choice', array(
+            'choices' => array(
+                'cron_jobs' => 'Cron Jobs',
+                'error_pages' => 'Error Pages',
+                'files' => 'Files',
+                'perl_settings' => 'Perl Settings',
+                'php_settings' => 'PHP Settings',
+                'python_settings' => 'Python Settings',
+                'ruby_settings' => 'Ruby Settings',
+            ),
+            'constraints' => array(
+                new Constraints\NotBlank(array(
+                    'message' => 'Invalid Items',
+                )),
+            ),
+            'expanded' => true,
+            'multiple' => true,
+            'required' => true,
+        ))
+        ->getForm();
+    if ($request->getMethod() == 'POST') {
+        $form->handleRequest($request);
+        $code = 0;
+        $message = '';
+        if ($form->isValid()) {
+            list($code, $message) = accounts_copy($app, $form->getData());
+        }
+        if ($code) {
+            $app['session']->getFlashBag()->add(
+                'success',
+                array(
+                    'The selected items were copied successfully.',
+                )
+            );
+
+            return $app->redirect(
+                $app['url_generator']->generate('accounts-copy')
+            );
+        }
+        $array = array();
+        $array[] = 'The selected items were not copied successfully.';
+        if ($message) {
+            $array[] = $message;
+        }
+        $app['session']->getFlashBag()->add('danger', $array);
+    }
+
+    return $app['twig']->render('views/accounts_copy.twig', array(
+        'form' => $form->createView(),
+    ));
+})->bind('accounts-copy')->method('GET|POST');
 
 $app->get('/accounts/{username}/manage', function($username) use ($app) {
     return $app['twig']->render('views/accounts_manage.twig', array(

@@ -591,13 +591,115 @@ function MysqlFE_listdbs($app, $username) {
     return $databases;
 }
 
+function accounts_copy($app, $parameters) {
+    $code = 1;
+    $message = '';
+
+    if (in_array('cron_jobs', $parameters['items'])) {
+        $commands = array();
+        $lines = Cron_get($app, $parameters['to']);
+        if (!empty($lines)) {
+            foreach ($lines as $key => $value) {
+                $commands[] = $lines[$key]['command'];
+            }
+        }
+        $lines = Cron_get($app, $parameters['from']);
+        if (!empty($lines)) {
+            foreach ($lines as $key => $value) {
+                $lines[$key]['command'] = str_replace(
+                    $parameters['from'],
+                    $parameters['to'],
+                    $lines[$key]['command']
+                );
+                if (in_array($lines[$key]['command'], $commands)) {
+                    unset($lines[$key]);
+                }
+            }
+        }
+        if (!empty($lines)) {
+            list($code, $message) = Cron_set($app, $parameters['to'], $lines);
+            if ($code) {
+                return array($code, $message);
+            }
+        }
+    }
+    if (in_array('error_pages', $parameters['items'])) {
+        list($code, $message) = rsync(
+            $app,
+            $parameters['to'],
+            sprintf('/home/%s/public_html/*.shtml', $parameters['from']),
+            sprintf('/home/%s/public_html/', $parameters['to'])
+        );
+        if ($code) {
+            return array($code, $message);
+        }
+    }
+    if (in_array('files', $parameters['items'])) {
+        list($code, $message) = rsync(
+            $app,
+            $parameters['to'],
+            sprintf('/home/%s/public_html/', $parameters['from']),
+            sprintf('/home/%s/public_html/', $parameters['to'])
+        );
+        if ($code) {
+            return array($code, $message);
+        }
+    }
+    if (in_array('perl_settings', $parameters['items'])) {
+        list($code, $message) = rsync(
+            $app,
+            $parameters['to'],
+            sprintf('/home/%s/perl5/', $parameters['from']),
+            sprintf('/home/%s/perl5/', $parameters['to'])
+        );
+        if ($code) {
+            return array($code, $message);
+        }
+    }
+    if (in_array('php_settings', $parameters['items'])) {
+        list($code, $message) = rsync(
+            $app,
+            $parameters['to'],
+            sprintf('/home/%s/php/', $parameters['from']),
+            sprintf('/home/%s/php/', $parameters['to'])
+        );
+        if ($code) {
+            return array($code, $message);
+        }
+    }
+    if (in_array('python_settings', $parameters['items'])) {
+        list($code, $message) = rsync(
+            $app,
+            $parameters['to'],
+            sprintf('/home/%s/python/', $parameters['from']),
+            sprintf('/home/%s/python/', $parameters['to'])
+        );
+        if ($code) {
+            return array($code, $message);
+        }
+    }
+    if (in_array('ruby_settings', $parameters['items'])) {
+        list($code, $message) = rsync(
+            $app,
+            $parameters['to'],
+            sprintf('/home/%s/ruby/', $parameters['from']),
+            sprintf('/home/%s/ruby/', $parameters['to'])
+        );
+        if ($code) {
+            return array($code, $message);
+        }
+    }
+
+    return array($code, $message);
+}
+
 function createacct($app, $parameters) {
     $response = $app['api']->whm_api('createacct', $parameters);
     if ($response->validResponse()) {
         try {
             $result = $response->result->getAllDataRecursively()[0];
             $code = $result['status'];
-            $message = $result['reason'];
+            $message = $result['statusmsg'];
             if ($code) {
                 $app['stash']->getItem('listaccts')->clear();
             }
@@ -902,6 +1004,44 @@ function unsuspendacct($app, $username) {
     return array($code, $message);
 }
 
+function rsync($app, $username, $source, $destination) {
+    $code = 1;
+    $message = '';
+    $ssh2_connect = @ssh2_connect(
+        $GLOBALS['parameters']['ssh']['hostname'],
+        $GLOBALS['parameters']['ssh']['port'],
+        array(
+            'hostkey'=>'ssh-rsa',
+        )
+    );
+    if (@ssh2_auth_pubkey_file(
+        $ssh2_connect,
+        $GLOBALS['parameters']['ssh']['username'],
+        $GLOBALS['parameters']['ssh']['keys']['public'],
+        $GLOBALS['parameters']['ssh']['keys']['private'],
+        ''
+    )) {
+        if (@ssh2_exec($ssh2_connect, sprintf(
+            'rsync -acOqz %s %s', $source, $destination
+        ))) {
+            if (!@ssh2_exec($ssh2_connect, sprintf(
+                'chown -R %s:%s "%s"', $username, $username, $destination
+            ))) {
+                $code = 0;
+                $message = 'Fatal Error #3';
+            }
+        } else {
+            $code = 0;
+            $message = 'Fatal Error #2';
+        }
+    } else {
+        $code = 0;
+        $message = 'Fatal Error #1';
+    }
+
+    return array($code, $message);
+}
+
 function scp($app, $username, $local, $remote) {
     $code = 1;
     $message = '';
@@ -921,10 +1061,7 @@ function scp($app, $username, $local, $remote) {
     )) {
         if (@ssh2_scp_send($ssh2_connect, $local, $remote, 0644)) {
             if (!@ssh2_exec($ssh2_connect, sprintf(
-                'chown %s:%s "%s"',
-                $username,
-                $username,
-                $remote
+                'chown %s:%s "%s"', $username, $username, $remote
             ))) {
                 $code = 0;
                 $message = 'Fatal Error #3';
