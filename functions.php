@@ -630,7 +630,7 @@ function accounts_copy($app, $parameters) {
             sprintf('/home/%s/public_html/*.shtml', $parameters['from']),
             sprintf('/home/%s/public_html/', $parameters['to'])
         );
-        if ($code) {
+        if (!$code) {
             return array($code, $message);
         }
     }
@@ -641,7 +641,7 @@ function accounts_copy($app, $parameters) {
             sprintf('/home/%s/public_html/', $parameters['from']),
             sprintf('/home/%s/public_html/', $parameters['to'])
         );
-        if ($code) {
+        if (!$code) {
             return array($code, $message);
         }
     }
@@ -652,7 +652,7 @@ function accounts_copy($app, $parameters) {
             sprintf('/home/%s/perl5/', $parameters['from']),
             sprintf('/home/%s/perl5/', $parameters['to'])
         );
-        if ($code) {
+        if (!$code) {
             return array($code, $message);
         }
     }
@@ -663,7 +663,7 @@ function accounts_copy($app, $parameters) {
             sprintf('/home/%s/php/', $parameters['from']),
             sprintf('/home/%s/php/', $parameters['to'])
         );
-        if ($code) {
+        if (!$code) {
             return array($code, $message);
         }
     }
@@ -674,7 +674,7 @@ function accounts_copy($app, $parameters) {
             sprintf('/home/%s/python/', $parameters['from']),
             sprintf('/home/%s/python/', $parameters['to'])
         );
-        if ($code) {
+        if (!$code) {
             return array($code, $message);
         }
     }
@@ -685,7 +685,7 @@ function accounts_copy($app, $parameters) {
             sprintf('/home/%s/ruby/', $parameters['from']),
             sprintf('/home/%s/ruby/', $parameters['to'])
         );
-        if ($code) {
+        if (!$code) {
             return array($code, $message);
         }
     }
@@ -1022,13 +1022,19 @@ function rsync($app, $username, $source, $destination) {
         ''
     )) {
         if (@ssh2_exec($ssh2_connect, sprintf(
-            'rsync -acOqz %s %s', $source, $destination
+            'rsync -avz %s %s', $source, $destination
         ))) {
             if (!@ssh2_exec($ssh2_connect, sprintf(
                 'chown -R %s:%s "%s"', $username, $username, $destination
             ))) {
                 $code = 0;
-                $message = 'Fatal Error #3';
+                $message = 'Fatal Error #3.1';
+            }
+            if (!@ssh2_exec($ssh2_connect, sprintf(
+                'chmod 0755 "%s"', $destination
+            ))) {
+                $code = 0;
+                $message = 'Fatal Error #3.2';
             }
         } else {
             $code = 0;
