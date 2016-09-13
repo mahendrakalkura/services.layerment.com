@@ -7,7 +7,7 @@ Step 1
 ```
 $ mkdir $HOME/services.layerment.com
 $ cd $HOME/services.layerment.com
-$ git clone --recursive git@bitbucket.org:kalkura/services.layerment.com.git .
+$ git clone --recursive git@github.com:mahendrakalkura/services.layerment.com.git .
 $ chmod 0777 $HOME/services.layerment.com/var/cache
 $ chmod 0777 $HOME/services.layerment.com/var/logs
 $ chmod 0777 $HOME/services.layerment.com/var/stash
